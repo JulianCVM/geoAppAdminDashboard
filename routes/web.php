@@ -21,6 +21,7 @@ Route::prefix('diagnostic')->group(function () {
     Route::get('/check-tables', [DiagnosticController::class, 'checkTables'])->name('diagnostic.check-tables');
     Route::get('/create-admin-table', [DiagnosticController::class, 'createAdminTable'])->name('diagnostic.create-admin-table');
     Route::get('/test-create-admin', [DiagnosticController::class, 'testCreateAdmin'])->name('diagnostic.test-create-admin');
+    Route::get('/check-secondary-connection', [DiagnosticController::class, 'checkSecondaryConnection'])->name('diagnostic.check-secondary-connection');
 });
 
 // Rutas para manejar redirecciones de Supabase

@@ -102,14 +102,24 @@ class DashboardController extends Controller
     public function usuarios()
     {
         $token = Session::get('access_token');
-        $usuarios = $this->supabaseSecondaryService->getUsuarios($token);
         
-        // Verificar si $usuarios es un array válido
-        if (!is_array($usuarios)) {
-            $usuarios = [];
+        // Obtener usuarios de la aplicación móvil (base secundaria)
+        $usuariosMovil = $this->supabaseSecondaryService->getUsuarios($token);
+        
+        // Verificar si $usuariosMovil es un array válido
+        if (!is_array($usuariosMovil)) {
+            $usuariosMovil = [];
         }
         
-        return view('dashboard.usuarios.index', compact('usuarios'));
+        // Obtener usuarios del sistema de gestión (administradores)
+        $usuariosGestion = $this->supabaseService->getAdministradores($token);
+        
+        // Verificar si $usuariosGestion es un array válido
+        if (!is_array($usuariosGestion)) {
+            $usuariosGestion = [];
+        }
+        
+        return view('dashboard.usuarios.index', compact('usuariosMovil', 'usuariosGestion'));
     }
 
     /**

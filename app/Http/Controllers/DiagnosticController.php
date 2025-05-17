@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Services\SupabaseService;
+use App\Services\SupabaseSecondaryService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class DiagnosticController extends Controller
 {
     protected $supabaseService;
+    protected $supabaseSecondaryService;
 
-    public function __construct(SupabaseService $supabaseService)
+    public function __construct(SupabaseService $supabaseService, SupabaseSecondaryService $supabaseSecondaryService)
     {
         $this->supabaseService = $supabaseService;
+        $this->supabaseSecondaryService = $supabaseSecondaryService;
     }
 
     /**
@@ -37,6 +41,28 @@ class DiagnosticController extends Controller
             'supabase_url' => config('supabase.url'),
             'key_length' => strlen(config('supabase.key')),
             'service_key_length' => strlen(config('supabase.service_key')),
+        ]);
+    }
+    
+    /**
+     * Verificar la conexión a la base de datos secundaria
+     */
+    public function checkSecondaryConnection()
+    {
+        $token = Session::get('access_token');
+        
+        // Verificar la conexión
+        $connectionResult = $this->supabaseSecondaryService->testConnection($token);
+        
+        // Detectar nombres de tablas
+        $tableNames = $this->supabaseSecondaryService->detectTableNames($token);
+        
+        return view('diagnostic.secondary_connection', [
+            'connectionResult' => $connectionResult,
+            'tableNames' => $tableNames,
+            'secondary_url' => config('supabase.secondary_url'),
+            'key_length' => strlen(config('supabase.secondary_key')),
+            'service_key_length' => strlen(config('supabase.secondary_service_key')),
         ]);
     }
     
