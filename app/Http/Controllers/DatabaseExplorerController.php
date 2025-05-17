@@ -80,36 +80,57 @@ class DatabaseExplorerController extends Controller
     {
         $token = Session::get('access_token');
         
-        // Consulta SQL para obtener las relaciones entre tablas (foreign keys)
-        $query = "
-            SELECT
-                tc.table_schema, 
-                tc.constraint_name, 
-                tc.table_name, 
-                kcu.column_name, 
-                ccu.table_schema AS foreign_table_schema,
-                ccu.table_name AS foreign_table_name,
-                ccu.column_name AS foreign_column_name 
-            FROM 
-                information_schema.table_constraints AS tc 
-                JOIN information_schema.key_column_usage AS kcu
-                  ON tc.constraint_name = kcu.constraint_name
-                  AND tc.table_schema = kcu.table_schema
-                JOIN information_schema.constraint_column_usage AS ccu
-                  ON ccu.constraint_name = tc.constraint_name
-                  AND ccu.table_schema = tc.table_schema
-            WHERE tc.constraint_type = 'FOREIGN KEY'
-            ORDER BY tc.table_schema, tc.table_name;
-        ";
-        
-        $relations = $this->supabaseSecondaryService->executeQuery($token, $query);
-        
-        // Asegurarse de que $relations sea un array
-        if (!is_array($relations)) {
-            $relations = [];
+        try {
+            // Intentar usar la función get_table_relations primero
+            $relations = $this->supabaseSecondaryService->executeQuery($token, "SELECT get_table_relations()");
+            
+            // Si la respuesta contiene una sola fila con el resultado de la función
+            if (is_array($relations) && count($relations) === 1 && isset($relations[0]['get_table_relations'])) {
+                $relations = $relations[0]['get_table_relations'];
+            }
+            
+            // Asegurarse de que $relations sea un array
+            if (!is_array($relations)) {
+                $relations = [];
+            }
+            
+            return view('database.relations', compact('relations'));
+        } catch (\Exception $e) {
+            // Si la función RPC no existe, intentar con la consulta SQL tradicional
+            error_log("Error al usar la función get_table_relations: " . $e->getMessage() . ". Intentando con consulta directa...");
+            
+            // Consulta SQL para obtener las relaciones entre tablas (foreign keys)
+            $query = "
+                SELECT
+                    tc.table_schema, 
+                    tc.constraint_name, 
+                    tc.table_name, 
+                    kcu.column_name, 
+                    ccu.table_schema AS foreign_table_schema,
+                    ccu.table_name AS foreign_table_name,
+                    ccu.column_name AS foreign_column_name 
+                FROM 
+                    information_schema.table_constraints AS tc 
+                    JOIN information_schema.key_column_usage AS kcu
+                      ON tc.constraint_name = kcu.constraint_name
+                      AND tc.table_schema = kcu.table_schema
+                    JOIN information_schema.constraint_column_usage AS ccu
+                      ON ccu.constraint_name = tc.constraint_name
+                      AND ccu.table_schema = tc.table_schema
+                WHERE tc.constraint_type = 'FOREIGN KEY'
+                ORDER BY tc.table_schema, tc.table_name;
+            ";
+            
+            $relations = $this->supabaseSecondaryService->executeQuery($token, $query);
+            
+            // Asegurarse de que $relations sea un array
+            if (!is_array($relations)) {
+                $relations = [];
+            }
+            
+            $error = "Se requiere configurar la función get_table_relations en Supabase para visualizar las relaciones.";
+            return view('database.relations', compact('relations', 'error'));
         }
-        
-        return view('database.relations', compact('relations'));
     }
 
     /**

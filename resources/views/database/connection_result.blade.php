@@ -96,6 +96,60 @@ $$;</pre>
                                 </p>
                             </div>
                             
+                            <!-- Función get_table_relations -->
+                            <div class="mb-4">
+                                <h6 style="color: #2E8B57;"><i class="fas fa-project-diagram me-2"></i> Función get_table_relations</h6>
+                                <div class="alert" style="background-color: #E1F5FE; color: #0277BD; border: 1px solid #64B5F6;">
+                                    <p class="mb-2">La función <code>get_table_relations</code> es necesaria para visualizar correctamente el diagrama de relaciones entre tablas.</p>
+                                    <p class="mb-0">Si no puedes ver el diagrama de relaciones o hay errores al cargar las relaciones, deberás crear esta función en tu base de datos Supabase.</p>
+                                </div>
+                                
+                                <div class="mt-3 p-3" style="background-color: #f5f5f5; border-radius: 4px; border: 1px solid #ddd;">
+                                    <h6 style="color: #2E8B57;">SQL para crear la función get_table_relations:</h6>
+                                    <pre style="background-color: #f8f9fa; padding: 10px; border-radius: 4px; white-space: pre-wrap;">
+CREATE OR REPLACE FUNCTION public.get_table_relations()
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+    result JSONB;
+BEGIN
+    EXECUTE 'SELECT to_jsonb(array_agg(row_to_json(t))) FROM (
+        SELECT
+            tc.table_schema, 
+            tc.constraint_name, 
+            tc.table_name, 
+            kcu.column_name, 
+            ccu.table_schema AS foreign_table_schema,
+            ccu.table_name AS foreign_table_name,
+            ccu.column_name AS foreign_column_name 
+        FROM 
+            information_schema.table_constraints AS tc 
+            JOIN information_schema.key_column_usage AS kcu
+              ON tc.constraint_name = kcu.constraint_name
+              AND tc.table_schema = kcu.table_schema
+            JOIN information_schema.constraint_column_usage AS ccu
+              ON ccu.constraint_name = tc.constraint_name
+              AND ccu.table_schema = tc.table_schema
+        WHERE tc.constraint_type = ''FOREIGN KEY''
+        ORDER BY tc.table_schema, tc.table_name
+    ) t' INTO result;
+    
+    RETURN result;
+EXCEPTION WHEN OTHERS THEN
+    RETURN jsonb_build_object('error', SQLERRM, 'detail', SQLSTATE);
+END;
+$$;</pre>
+                                </div>
+                                
+                                <p class="mt-3" style="color: #1B5E20;">
+                                    <i class="fas fa-info-circle me-1"></i> 
+                                    Esta función optimiza la visualización de relaciones al evitar múltiples consultas a la base de datos.
+                                </p>
+                            </div>
+                            
                             @if(isset($schemas_status))
                                 <div class="mb-4">
                                     <h6 style="color: #2E8B57;"><i class="fas fa-database me-2"></i> Esquemas</h6>
