@@ -10,7 +10,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #F9F6F0;
             height: 100vh;
             display: flex;
             align-items: center;
@@ -24,26 +24,38 @@
             border: none;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: #A5D6A7; 
+            border-left: 4px solid #2E8B57;
         }
         .card-header {
-            background-color: #fff;
-            border-bottom: 1px solid #eee;
+            background-color: #F5F5DC;
+            border-bottom: 1px solid #A5D6A7;
             font-weight: bold;
             text-align: center;
             padding: 20px 0;
         }
         .btn-primary {
-            background-color: #3b71ca;
-            border-color: #3b71ca;
+            background-color: #2E8B57;
+            border-color: #2E8B57;
             padding: 12px;
             font-weight: 500;
         }
         .btn-primary:hover {
-            background-color: #2e5ca8;
-            border-color: #2e5ca8;
+            background-color: #1B5E20;
+            border-color: #1B5E20;
+        }
+        .btn-outline-secondary {
+            border-color: #8FBC8F;
+            color: #2E8B57;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #8FBC8F;
+            border-color: #8FBC8F;
+            color: white;
         }
         .form-label {
             font-weight: 500;
+            color: #1B5E20;
         }
         .brand {
             text-align: center;
@@ -51,10 +63,14 @@
         }
         .brand h1 {
             font-weight: bold;
-            color: #3b71ca;
+            color: #2E8B57;
         }
         .form-control {
             padding: 12px;
+            border-color: #A5D6A7;
+        }
+        .form-text {
+            color: #2E8B57;
         }
     </style>
 </head>
@@ -67,9 +83,9 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Crear Cuenta de Administrador</h4>
+                    <h4 class="mb-0" style="color: #1B5E20;">Crear Cuenta de Administrador</h4>
                 </div>
-                <div class="card-body p-4">
+                <div class="card-body p-4" style="background-color: #F9F6F0;">
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul class="mb-0">
@@ -101,7 +117,7 @@
                         <div class="mb-3">
                             <label for="codigo_superadmin" class="form-label">Código de Superadmin</label>
                             <input type="password" class="form-control" id="codigo_superadmin" name="codigo_superadmin" required>
-                            <small class="form-text text-muted">Este código es proporcionado por el superadministrador del sistema.</small>
+                            <small class="form-text">Este código es proporcionado por el superadministrador del sistema.</small>
                         </div>
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Registrarse</button>

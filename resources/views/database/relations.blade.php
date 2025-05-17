@@ -7,27 +7,27 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Relaciones entre Tablas</h5>
-                    <a href="{{ route('database.index') }}" class="btn btn-light btn-sm">
+                <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #F5F5DC;">
+                    <h5 class="mb-0" style="color: #1B5E20;">Relaciones entre Tablas</h5>
+                    <a href="{{ route('database.index') }}" class="btn btn-sm" style="background-color: #2E8B57; color: white;">
                         <i class="fas fa-arrow-left"></i> Volver
                     </a>
                 </div>
-                <div class="card-body">
-                    <div class="alert alert-info">
+                <div class="card-body" style="background-color: #F9F6F0;">
+                    <div class="alert" style="background-color: #E8F5E9; border: 1px solid #A5D6A7; color: #1B5E20;">
                         <i class="fas fa-info-circle"></i> Esta página muestra todas las relaciones de clave foránea (foreign keys) entre tablas.
                     </div>
                     
                     @if(!empty($relations) && is_array($relations) && count($relations) > 0)
                         <div class="table-responsive mt-3">
                             <table class="table table-bordered table-striped">
-                                <thead class="table-dark">
+                                <thead style="background-color: #A5D6A7;">
                                     <tr>
-                                        <th>Esquema</th>
-                                        <th>Tabla</th>
-                                        <th>Columna</th>
-                                        <th>Referencia</th>
-                                        <th>Acciones</th>
+                                        <th style="color: #1B5E20;">Esquema</th>
+                                        <th style="color: #1B5E20;">Tabla</th>
+                                        <th style="color: #1B5E20;">Columna</th>
+                                        <th style="color: #1B5E20;">Referencia</th>
+                                        <th style="color: #1B5E20;">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -36,18 +36,18 @@
                                         <tr>
                                             <td>{{ $relation['table_schema'] }}</td>
                                             <td>
-                                                <a href="{{ route('database.table', [$relation['table_schema'], $relation['table_name']]) }}">
+                                                <a href="{{ route('database.table', [$relation['table_schema'], $relation['table_name']]) }}" style="color: #2E8B57;">
                                                     {{ $relation['table_name'] }}
                                                 </a>
                                             </td>
                                             <td>{{ $relation['column_name'] }}</td>
                                             <td>
-                                                <a href="{{ route('database.table', [$relation['foreign_table_schema'], $relation['foreign_table_name']]) }}">
+                                                <a href="{{ route('database.table', [$relation['foreign_table_schema'], $relation['foreign_table_name']]) }}" style="color: #2E8B57;">
                                                     {{ $relation['foreign_table_schema'] }}.{{ $relation['foreign_table_name'] }}.{{ $relation['foreign_column_name'] }}
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-sm btn-primary">
+                                                <a href="#" class="btn btn-sm" style="background-color: #2E8B57; color: white;">
                                                     <i class="fas fa-search"></i> Explorar
                                                 </a>
                                             </td>
@@ -60,11 +60,11 @@
                         
                         <!-- Diagrama visual de relaciones -->
                         <div class="mt-5">
-                            <h4>Diagrama de Relaciones</h4>
-                            <div id="relationDiagram" style="height: 600px; border: 1px solid #ddd; border-radius: 4px;"></div>
+                            <h4 style="color: #1B5E20;">Diagrama de Relaciones</h4>
+                            <div id="relationDiagram" style="height: 600px; border: 1px solid #A5D6A7; border-radius: 4px;"></div>
                         </div>
                     @else
-                        <div class="alert alert-warning">
+                        <div class="alert" style="background-color: #FFF3E0; color: #E65100; border: 1px solid #FFB74D;">
                             <i class="fas fa-exclamation-triangle"></i> No se encontraron relaciones entre tablas.
                         </div>
                     @endif

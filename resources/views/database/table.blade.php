@@ -7,24 +7,24 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Tabla: {{ $schema }}.{{ $table }}</h5>
+                <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #F5F5DC;">
+                    <h5 class="mb-0" style="color: #1B5E20;">Tabla: {{ $schema }}.{{ $table }}</h5>
                     <div>
-                        <a href="{{ route('database.schema', $schema) }}" class="btn btn-light btn-sm me-2">
+                        <a href="{{ route('database.schema', $schema) }}" class="btn btn-sm" style="background-color: #2E8B57; color: white;">
                             <i class="fas fa-arrow-left"></i> Volver
                         </a>
                     </div>
                 </div>
                 
-                <div class="card-body">
+                <div class="card-body" style="background-color: #F9F6F0;">
                     <ul class="nav nav-tabs" id="tableTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="structure-tab" data-bs-toggle="tab" data-bs-target="#structure" type="button" role="tab" aria-controls="structure" aria-selected="true">
+                            <button class="nav-link active" id="structure-tab" data-bs-toggle="tab" data-bs-target="#structure" type="button" role="tab" aria-controls="structure" aria-selected="true" style="color: #2E8B57; border-color: #A5D6A7;">
                                 <i class="fas fa-sitemap"></i> Estructura
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="data-tab" data-bs-toggle="tab" data-bs-target="#data" type="button" role="tab" aria-controls="data" aria-selected="false">
+                            <button class="nav-link" id="data-tab" data-bs-toggle="tab" data-bs-target="#data" type="button" role="tab" aria-controls="data" aria-selected="false" style="color: #2E8B57; border-color: #A5D6A7;">
                                 <i class="fas fa-table"></i> Datos
                             </button>
                         </li>
@@ -35,12 +35,12 @@
                         <div class="tab-pane fade show active" id="structure" role="tabpanel" aria-labelledby="structure-tab">
                             <div class="table-responsive mt-3">
                                 <table class="table table-bordered table-striped">
-                                    <thead class="table-dark">
+                                    <thead style="background-color: #A5D6A7;">
                                         <tr>
-                                            <th>Columna</th>
-                                            <th>Tipo de Dato</th>
-                                            <th>Nullable</th>
-                                            <th>Valor por Defecto</th>
+                                            <th style="color: #1B5E20;">Columna</th>
+                                            <th style="color: #1B5E20;">Tipo de Dato</th>
+                                            <th style="color: #1B5E20;">Nullable</th>
+                                            <th style="color: #1B5E20;">Valor por Defecto</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -52,9 +52,9 @@
                                                 <td>{{ $column['data_type'] }}</td>
                                                 <td>
                                                     @if($column['is_nullable'] === 'YES')
-                                                        <span class="badge bg-success">SI</span>
+                                                        <span class="badge" style="background-color: #4CAF50; color: white;">SI</span>
                                                     @else
-                                                        <span class="badge bg-danger">NO</span>
+                                                        <span class="badge" style="background-color: #E57373; color: white;">NO</span>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -79,7 +79,7 @@
                         <div class="tab-pane fade" id="data" role="tabpanel" aria-labelledby="data-tab">
                             @if(!empty($data) && is_array($data) && count($data) > 0)
                                 <div class="mt-3 mb-3">
-                                    <div class="alert alert-info">
+                                    <div class="alert" style="background-color: #E8F5E9; border: 1px solid #A5D6A7; color: #1B5E20;">
                                         <i class="fas fa-info-circle"></i> Mostrando {{ count($data) }} registros (limitado a 1000 registros máximo)
                                     </div>
                                     
@@ -97,13 +97,13 @@
                                     
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-striped table-hover" style="font-size: 0.9rem;">
-                                            <thead class="table-dark">
+                                            <thead style="background-color: #A5D6A7;">
                                                 <tr>
-                                                    <th>#</th>
+                                                    <th style="color: #1B5E20;">#</th>
                                                     @foreach($allKeys as $key)
-                                                        <th>{{ $key }}</th>
+                                                        <th style="color: #1B5E20;">{{ $key }}</th>
                                                     @endforeach
-                                                    <th>Acciones</th>
+                                                    <th style="color: #1B5E20;">Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -114,7 +114,7 @@
                                                             <td>
                                                                 @if(array_key_exists($key, $row))
                                                                     @if(is_array($row[$key]) || (is_string($row[$key]) && strlen($row[$key]) > 100))
-                                                                        <button type="button" class="btn btn-sm btn-outline-primary json-viewer" data-json="{{ htmlspecialchars(json_encode($row[$key])) }}">
+                                                                        <button type="button" class="btn btn-sm json-viewer" style="border-color: #2E8B57; color: #2E8B57;" data-json="{{ htmlspecialchars(json_encode($row[$key])) }}">
                                                                             <i class="fas fa-eye"></i> Ver
                                                                         </button>
                                                                     @else
@@ -150,7 +150,7 @@
                                                             @endphp
                                                             
                                                             @if($idColumn && $idValue)
-                                                                <a href="{{ route('database.related_data', ['schema' => $schema, 'table' => $table, 'id_column' => $idColumn, 'id_value' => $idValue]) }}" class="btn btn-sm btn-primary">
+                                                                <a href="{{ route('database.related_data', ['schema' => $schema, 'table' => $table, 'id_column' => $idColumn, 'id_value' => $idValue]) }}" class="btn btn-sm" style="background-color: #2E8B57; color: white;">
                                                                     <i class="fas fa-project-diagram"></i> Relacionados
                                                                 </a>
                                                             @endif
@@ -162,7 +162,7 @@
                                     </div>
                                 </div>
                             @else
-                                <div class="alert alert-warning mt-3">
+                                <div class="alert" style="background-color: #FFF3E0; color: #E65100; border: 1px solid #FFB74D;">
                                     <i class="fas fa-exclamation-triangle"></i> No hay datos para mostrar en esta tabla.
                                 </div>
                             @endif
@@ -178,15 +178,15 @@
 <div class="modal fade" id="jsonModal" tabindex="-1" aria-labelledby="jsonModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="jsonModalLabel">Visualizador de Datos</h5>
+            <div class="modal-header" style="background-color: #F5F5DC;">
+                <h5 class="modal-title" id="jsonModalLabel" style="color: #1B5E20;">Visualizador de Datos</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <pre id="jsonContent" class="bg-light p-3 rounded" style="max-height: 400px; overflow-y: auto;"></pre>
+            <div class="modal-body" style="background-color: #F9F6F0;">
+                <pre id="jsonContent" class="bg-light p-3 rounded" style="max-height: 400px; overflow-y: auto; border: 1px solid #A5D6A7;"></pre>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <div class="modal-footer" style="background-color: #F5F5DC;">
+                <button type="button" class="btn" data-bs-dismiss="modal" style="background-color: #8FBC8F; color: white;">Cerrar</button>
             </div>
         </div>
     </div>

@@ -10,7 +10,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #F9F6F0;
             height: 100vh;
             display: flex;
             align-items: center;
@@ -24,26 +24,29 @@
             border: none;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: #A5D6A7;
+            border-left: 4px solid #2E8B57;
         }
         .card-header {
-            background-color: #fff;
-            border-bottom: 1px solid #eee;
+            background-color: #F5F5DC;
+            border-bottom: 1px solid #A5D6A7;
             font-weight: bold;
             text-align: center;
             padding: 20px 0;
         }
         .btn-primary {
-            background-color: #3b71ca;
-            border-color: #3b71ca;
+            background-color: #2E8B57;
+            border-color: #2E8B57;
             padding: 12px;
             font-weight: 500;
         }
         .btn-primary:hover {
-            background-color: #2e5ca8;
-            border-color: #2e5ca8;
+            background-color: #1B5E20;
+            border-color: #1B5E20;
         }
         .form-label {
             font-weight: 500;
+            color: #1B5E20;
         }
         .brand {
             text-align: center;
@@ -51,10 +54,11 @@
         }
         .brand h1 {
             font-weight: bold;
-            color: #3b71ca;
+            color: #2E8B57;
         }
         .form-control {
             padding: 12px;
+            border-color: #A5D6A7;
         }
         .alert-success {
             background-color: #d1e7dd;
@@ -72,9 +76,9 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Iniciar Sesión</h4>
+                    <h4 class="mb-0" style="color: #1B5E20;">Iniciar Sesión</h4>
                 </div>
-                <div class="card-body p-4">
+                <div class="card-body p-4" style="background-color: #F9F6F0;">
                     @if (session('success'))
                         <div class="alert alert-success mb-4">
                             {{ session('success') }}
@@ -111,7 +115,7 @@
                             <button type="submit" class="btn btn-primary">Ingresar</button>
                         </div>
                         <div class="text-center mt-3">
-                            <p class="mb-0">¿No tienes cuenta? <a href="{{ route('register') }}" class="text-primary">Regístrate aquí</a></p>
+                            <p class="mb-0" style="color: #1B5E20;">¿No tienes cuenta? <a href="{{ route('register') }}" style="color: #2E8B57;">Regístrate aquí</a></p>
                         </div>
                     </form>
                 </div>
