@@ -60,7 +60,9 @@ class DatabaseExplorerController extends Controller
         ]);
         
         $token = Session::get('access_token');
-        $result = $this->supabaseSecondaryService->executeQuery($token, $request->query);
+        // Extraer explícitamente la consulta SQL como una cadena
+        $query = $request->input('query');
+        $result = $this->supabaseSecondaryService->executeQuery($token, $query);
         
         return view('database.query_result', compact('result'));
     }

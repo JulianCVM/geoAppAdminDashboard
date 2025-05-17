@@ -326,7 +326,19 @@ class SupabaseSecondaryService
                 $query = $query->input('query');
             }
             
-            error_log("Ejecutando consulta SQL: " . substr($query, 0, 100) . "...");
+            // Asegurarse de que $query es una cadena antes de usar substr
+            if (is_string($query)) {
+                // Eliminar el punto y coma final si existe
+                $query = rtrim($query, ';');
+                
+                error_log("Ejecutando consulta SQL: " . substr($query, 0, 100) . "...");
+            } else {
+                error_log("Error: La consulta SQL no es una cadena válida");
+                return [
+                    'error' => 'La consulta SQL proporcionada no es válida',
+                    'status' => 400
+                ];
+            }
             
             $response = $this->client->post('/rest/v1/rpc/execute_sql', [
                 'headers' => [
