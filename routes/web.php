@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiagnosticController;
 use App\Http\Controllers\DatabaseExplorerController;
 use App\Http\Controllers\DatabaseConnectionController;
+use App\Http\Controllers\EstadisticasController;
 
 // Rutas de autenticación
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -51,6 +52,10 @@ Route::prefix('dashboard')->middleware('auth.admin')->group(function () {
     Route::get('/administradores', [DashboardController::class, 'administradores'])->name('dashboard.administradores');
     Route::get('/administradores/crear', [DashboardController::class, 'createAdmin'])->name('dashboard.administradores.create');
     Route::post('/administradores', [DashboardController::class, 'storeAdmin'])->name('dashboard.administradores.store');
+    
+    // Estadísticas
+    Route::get('/estadisticas', [EstadisticasController::class, 'index'])->name('estadisticas');
+    Route::get('/estadisticas/informe/json', [EstadisticasController::class, 'generarInformeJSON'])->name('estadisticas.informe.json');
     
     // Explorador de Base de Datos
     Route::prefix('database')->group(function () {
