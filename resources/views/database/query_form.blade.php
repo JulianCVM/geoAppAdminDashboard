@@ -14,6 +14,20 @@
                     </a>
                 </div>
                 <div class="card-body" style="background-color: #F9F6F0;">
+                    <!-- Alerta para la función execute_sql -->
+                    @if(session('execute_sql_error'))
+                    <div class="alert alert-danger mb-4">
+                        <h5><i class="fas fa-exclamation-triangle"></i> Error: Función execute_sql no encontrada</h5>
+                        <p>Se requiere la función <code>execute_sql</code> en la base de datos Supabase para usar esta funcionalidad.</p>
+                        <hr>
+                        <p class="mb-0">
+                            <a href="{{ route('database.connection.test') }}" class="alert-link">
+                                Haz clic aquí para ver instrucciones de cómo crear esta función
+                            </a>
+                        </p>
+                    </div>
+                    @endif
+
                     <div class="alert" style="background-color: #FFF3E0; color: #E65100; border: 1px solid #FFB74D;">
                         <i class="fas fa-exclamation-triangle"></i> <strong>Atención:</strong> Las consultas SQL se ejecutarán directamente en la base de datos. Sé cuidadoso con las operaciones que realices.
                     </div>

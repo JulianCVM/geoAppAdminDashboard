@@ -14,6 +14,20 @@
                     </a>
                 </div>
                 <div class="card-body" style="background-color: #F9F6F0;">
+                    <!-- Alerta para la función execute_sql -->
+                    @if(session('execute_sql_error') || (isset($error) && strpos($error, 'execute_sql') !== false))
+                    <div class="alert mb-4" style="background-color: #FFEBEE; color: #B71C1C; border: 1px solid #EF9A9A;">
+                        <h5><i class="fas fa-exclamation-triangle"></i> Error: Función execute_sql no encontrada</h5>
+                        <p>Se requiere la función <code>execute_sql</code> en la base de datos Supabase para visualizar las relaciones entre tablas.</p>
+                        <hr>
+                        <p class="mb-0">
+                            <a href="{{ route('database.connection.test') }}" class="alert-link" style="color: #B71C1C; text-decoration: underline;">
+                                Haz clic aquí para ver instrucciones de cómo crear esta función
+                            </a>
+                        </p>
+                    </div>
+                    @endif
+
                     <div class="alert" style="background-color: #E8F5E9; border: 1px solid #A5D6A7; color: #1B5E20;">
                         <i class="fas fa-info-circle"></i> Esta página muestra todas las relaciones de clave foránea (foreign keys) entre tablas.
                     </div>
