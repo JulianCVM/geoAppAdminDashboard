@@ -51,6 +51,21 @@ class DashboardController extends Controller
         $token = Session::get('access_token');
         $reportes = $this->supabaseSecondaryService->getReportes($token);
         
+        // Ordenar reportes por estado: pendiente, en_proceso, resuelto, cancelado
+        usort($reportes, function($a, $b) {
+            $orden = [
+                'pendiente' => 1,
+                'en_proceso' => 2,
+                'resuelto' => 3,
+                'cancelado' => 4
+            ];
+            
+            $estadoA = $a['estado'] ?? 'cancelado';
+            $estadoB = $b['estado'] ?? 'cancelado';
+            
+            return ($orden[$estadoA] ?? 5) - ($orden[$estadoB] ?? 5);
+        });
+        
         return view('dashboard.reportes.index', compact('reportes'));
     }
 
